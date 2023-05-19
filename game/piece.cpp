@@ -3,7 +3,7 @@
 namespace chess {
 
 MaterialValue Piece::GetMaterialValue() {
-	return material_;
+    return material_;
 }
 
 }  // namespace chess

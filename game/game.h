@@ -9,11 +9,11 @@
 namespace chess {
 class Game {
   public:
-  	Game();
-	~Game() = default;
+    Game();
+    ~Game() = default;
   private:
-  	static constexpr size_t kBoardHeight = 8;
-  	static constexpr size_t kBoardWidth = 8;
+    static constexpr size_t kBoardHeight = 8;
+    static constexpr size_t kBoardWidth = 8;
     Board<kBoardHeight, kBoardWidth, Piece> board;
 };
 }

@@ -21,10 +21,10 @@ class Board {
     ~Board() = default;
 
     const File& operator[](char file) {
-    	int index = static_cast<int>(file) - static_cast<int>('a');
+        int index = static_cast<int>(file) - static_cast<int>('a');
         assert(index >= 0)
         assert(index < kHeight);
-    	return board_[index];
+        return board_[index];
     }
 
   private:
