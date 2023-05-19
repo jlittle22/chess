@@ -11,41 +11,43 @@ using MaterialValue = size_t;
 constexpr MaterialValue kInfiniteMaterialValue = SIZE_MAX;
 
 class Piece {
-  public:
-    enum class Type {
-        kPawn,
-        kRook,
-        kKnight,
-        kBishop,
-        kKing,
-        kQueen, 
-    };
+ public:
+  enum class Type {
+    kPawn,
+    kRook,
+    kKnight,
+    kBishop,
+    kKing,
+    kQueen,
+  };
 
-    template <Type T>
-    constexpr Piece() {
-        if constexpr (T == Type::kPawn) {
-            material_ = 1;
-        } else if constexpr (T == Type::kRook) {
-            material_ = 6;
-        } else if constexpr (T == Type::kKnight) {
-            material_ = 3;
-        } else if constexpr (T == Type::kBishop) {
-            material_ = 3;
-        } else if constexpr (T == Type::kQueen) {
-            material_ = 9;
-        } else {
-            static_assert(T == Type::kKing, "Unknown Piece::Type in Piece constructor.");
-            material_ = kInfiniteMaterialValue;
-        }
-
-        type_ = T;
+  template <Type T>
+  constexpr Piece() {
+    if constexpr (T == Type::kPawn) {
+      material_ = 1;
+    } else if constexpr (T == Type::kRook) {
+      material_ = 6;
+    } else if constexpr (T == Type::kKnight) {
+      material_ = 3;
+    } else if constexpr (T == Type::kBishop) {
+      material_ = 3;
+    } else if constexpr (T == Type::kQueen) {
+      material_ = 9;
+    } else {
+      static_assert(T == Type::kKing,
+                    "Unknown Piece::Type in Piece constructor.");
+      material_ = kInfiniteMaterialValue;
     }
 
-    MaterialValue GetMaterialValue();
+    type_ = T;
+  }
 
-  private:
-    Type type_;
-    MaterialValue material_;
+  MaterialValue GetMaterialValue();
+  Type GetType();
+
+ private:
+  Type type_;
+  MaterialValue material_;
 };
 
 }  // namespace chess
