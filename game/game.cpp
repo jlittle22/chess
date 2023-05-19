@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "zobrist.h"
+
 namespace chess {
 
 Game::Game() : is_white_to_move_(true) {
@@ -13,5 +15,8 @@ Game::Game(const Game& other, MoveIdentifier with_move) {
   this->is_white_to_move_ = !other.is_white_to_move_;
   // TODO(jsnl): Apply with_move!
 }
+
+// TODO(jsnl)
+uint64_t Game::Hash() { return ZobristStandard::kTable[0][0][0][0]; }
 
 }  // namespace chess
