@@ -21,19 +21,25 @@ class Board {
   using Square = GeneralSquare<PieceType>;
   using File = Square[kHeight];
 
-  Board() = default;
+  Board() {
+    bool make_white = false;
+    ForEachSquare([&](Square& sq) {
+      sq.is_white = make_white;
+      make_white = !make_white;
+    });
+  };
   ~Board() = default;
 
   static Square EmptyWhiteSquare() {
     return {
-        .occupant = std::nullopt_t,
+        .occupant = {},
         .is_white = true,
     };
   }
 
   static Square EmptyBlackSquare() {
     return {
-        .occupant = std::nullopt_t,
+        .occupant = {},
         .is_white = false,
     };
   }
@@ -52,23 +58,23 @@ class Board {
     };
   }
 
-  const File& operator[](FileIdentifier file) {
+  File& operator[](FileIdentifier file) {
     int index = static_cast<int>(file) - static_cast<int>('a');
     assert(index >= 0);
-    assert(index < kHeight);
+    assert(index < kWidth);
     return board_[index];
   }
 
   void ForEachSquare(std::function<void(Square&)> f) {
-    for (int h = 0; h < kHeight; ++h) {
-      for (int w = 0; w < kWidth; ++w) {
-        f(board_[h][w]);
+    for (int w = 0; w < kWidth; ++w) {
+      for (int h = 0; h < kHeight; ++h) {
+        f(board_[w][h]);
       }
     }
   }
 
  private:
-  Square board_[kHeight][kWidth];
+  Square board_[kWidth][kHeight];
 };
 
 }  // namespace chess

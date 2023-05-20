@@ -1,6 +1,7 @@
 #ifndef CHESS_PIECE_H
 #define CHESS_PIECE_H
 
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
 
@@ -21,28 +22,34 @@ class Piece {
     kQueen,
   };
 
-  template <Type T, bool kIsWhite>
-  constexpr Piece() {
-    if constexpr (T == Type::kPawn) {
-      material_ = 1;
-    } else if constexpr (T == Type::kRook) {
-      material_ = 6;
-      has_castle_ = true;
-    } else if constexpr (T == Type::kKnight) {
-      material_ = 3;
-    } else if constexpr (T == Type::kBishop) {
-      material_ = 3;
-    } else if constexpr (T == Type::kQueen) {
-      material_ = 9;
-    } else {
-      static_assert(T == Type::kKing,
-                    "Unknown Piece::Type in Piece constructor.");
-      material_ = kInfiniteMaterialValue;
-      has_castle_ = true;
-    }
+  Piece(Type t, bool is_white) {
+    type_ = t;
+    is_white_ = is_white;
 
-    type_ = T;
-    is_white_ = kIsWhite;
+    switch (type_) {
+      case Type::kPawn:
+        material_ = 1;
+        break;
+      case Type::kRook:
+        material_ = 6;
+        has_castle_ = true;
+        break;
+      case Type::kKnight:
+        material_ = 3;
+        break;
+      case Type::kBishop:
+        material_ = 3;
+        break;
+      case Type::kQueen:
+        material_ = 9;
+        break;
+      case Type::kKing:
+        material_ = kInfiniteMaterialValue;
+        has_castle_ = true;
+        break;
+      default:
+        assert(false);
+    }
   }
 
   MaterialValue GetMaterialValue() const;

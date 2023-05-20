@@ -182,7 +182,7 @@ class ZobristStandard {
 
  public:
   // https://en.wikipedia.org/wiki/Zobrist_hashing
-  static constexpr uint64_t kTable[kBoardHeight][kBoardWidth]
+  static constexpr uint64_t kTable[kBoardWidth][kBoardHeight]
                                   [kUniquePieceTypeCount][kNumPlayers] = {
                                       {
                                           {
