@@ -2,12 +2,14 @@
 
 #include <cstdint>
 
+#include "piece.h"
 #include "zobrist.h"
 
 namespace chess {
 
 Game::Game() : is_white_to_move_(true) {
-  // TODO(jsnl)
+  // Set up white pieces
+  board_['a'][1] = Board::WhiteSquareWithPiece(Piece<>());
 }
 
 Game::Game(const Game& other, MoveIdentifier with_move) {
@@ -16,7 +18,19 @@ Game::Game(const Game& other, MoveIdentifier with_move) {
   // TODO(jsnl): Apply with_move!
 }
 
-// TODO(jsnl)
-uint64_t Game::Hash() { return ZobristStandard::kTable[0][0][0][0]; }
+uint64_t Game::Hash() {
+  uint64_t hash = 0;
+  for (int h = 0; h < kBoardHeight; ++h) {
+    for (int w = 0; w < kBoardWidth; ++w) {
+      const ChessBoard::Square& sq = board_[h][w];
+      if (sq.occupant.has_value() == true) {
+        size_t piece = ZobristStandard::GetPieceId(*sq.occupant);
+        size_t turn = ZobristStandard::GetTurnId(is_white_to_move_);
+        hash ^= ZobristStandard::kTable[h][w][piece][turn];
+      }
+    }
+  }
+  return hash;
+}
 
 }  // namespace chess

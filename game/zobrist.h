@@ -1,6 +1,10 @@
 #ifndef CHESS_ZOBRIST_H
 #define CHESS_ZOBRIST_H
 
+#include <cassert>
+
+#include "piece.h"
+
 namespace chess {
 
 /* Generated with:
@@ -63,6 +67,120 @@ class ZobristStandard {
    */
   static constexpr size_t kUniquePieceTypeCount = 18;
 
+  static size_t GetPieceId(const Piece& p) {
+    //     Type GetType();
+    // void SetHasMoved();
+    // bool GetHasMoved();
+    // void SetHasEnPassant(bool has_en_passant);
+    // bool GetHasEnPassant();
+    switch (p.GetType()) {
+      case Piece::Type::kPawn: {
+        bool has_en_passant = p.HasEnPassant();
+        bool is_white = p.IsWhite();
+        if (is_white == true && has_en_passant == true) {
+          return kWhitePawnWithEnPassant;
+        }
+
+        if (is_white == false && has_en_passant == true) {
+          return kBlackPawnWithEnPassant;
+        }
+
+        if (is_white == true) {
+          return kWhitePawn;
+        }
+
+        return kBlackPawn;
+      }
+      case Piece::Type::kRook: {
+        bool has_castle = p.HasCastle();
+        bool is_white = p.IsWhite();
+        if (is_white == true && has_castle == true) {
+          return kWhiteRookWithCastle;
+        }
+
+        if (is_white == false && has_castle == true) {
+          return kBlackRookWithCastle;
+        }
+
+        if (is_white == true) {
+          return kWhiteRook;
+        }
+
+        return kBlackRook;
+      }
+      case Piece::Type::kKnight: {
+        if (p.IsWhite()) {
+          return kWhiteKnight;
+        }
+
+        return kBlackKnight;
+      }
+      case Piece::Type::kBishop: {
+        if (p.IsWhite()) {
+          return kWhiteBishop;
+        }
+
+        return kBlackBishop;
+      }
+      case Piece::Type::kKing: {
+        bool has_castle = p.HasCastle();
+        bool is_white = p.IsWhite();
+        if (is_white == true && has_castle == true) {
+          return kWhiteKingWithCastle;
+        }
+
+        if (is_white == false && has_castle == true) {
+          return kBlackKingWithCastle;
+        }
+
+        if (is_white == true) {
+          return kWhiteKing;
+        }
+
+        return kBlackKing;
+      }
+      case Piece::Type::kQueen: {
+        if (p.IsWhite()) {
+          return kWhiteQueen;
+        }
+
+        return kBlackQueen;
+      }
+      default:
+        assert(false);
+    }
+  }
+
+  static inline size_t GetTurnId(bool is_white_to_move) {
+    return is_white_to_move ? kWhiteToMove : kBlackToMove;
+  }
+
+ private:
+  // Pieces
+  static constexpr size_t kWhitePawn = 0;
+  static constexpr size_t kBlackPawn = 1;
+  static constexpr size_t kWhitePawnWithEnPassant = 2;
+  static constexpr size_t kBlackPawnWithEnPassant = 3;
+  static constexpr size_t kWhiteRook = 4;
+  static constexpr size_t kBlackRook = 5;
+  static constexpr size_t kWhiteRookWithCastle = 6;
+  static constexpr size_t kBlackRookWithCastle = 7;
+  static constexpr size_t kWhiteKnight = 8;
+  static constexpr size_t kBlackKnight = 9;
+  static constexpr size_t kWhiteBishop = 10;
+  static constexpr size_t kBlackBishop = 11;
+  static constexpr size_t kWhiteKing = 12;
+  static constexpr size_t kBlackKing = 13;
+  static constexpr size_t kWhiteKingWithCastle = 14;
+  static constexpr size_t kBlackKingWithCastle = 15;
+  static constexpr size_t kWhiteQueen = 16;
+  static constexpr size_t kBlackQueen = 17;
+
+  // Turns
+  static constexpr size_t kWhiteToMove = 0;
+  static constexpr size_t kBlackToMove = 1;
+
+ public:
   // https://en.wikipedia.org/wiki/Zobrist_hashing
   static constexpr uint64_t kTable[kBoardHeight][kBoardWidth]
                                   [kUniquePieceTypeCount][kNumPlayers] = {

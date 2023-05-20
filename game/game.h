@@ -19,8 +19,9 @@ class Game {
  private:
   static constexpr size_t kBoardHeight = 8;
   static constexpr size_t kBoardWidth = 8;
+  using ChessBoard = Board<kBoardHeight, kBoardWidth, Piece>;
 
-  Board<kBoardHeight, kBoardWidth, Piece> board_;
+  ChessBoard board_;
   bool is_white_to_move_;
 };
 }  // namespace chess
