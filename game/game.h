@@ -26,12 +26,32 @@ class Game {
 
   void Hash();
 
-  void FindLegalMovesForPiece(const Piece& p, const SquareIdentifier& location,
+  void FindLegalMovesForPiece(Piece& p, const SquareIdentifier& location,
                               MoveList& moves);
+
+  void FindLegalMovesForPawn(Piece& pawn, const SquareIdentifier& location,
+                             MoveList& moves);
+
+  void FindLegalMovesForRook(Piece& rook, const SquareIdentifier& location,
+                             MoveList& moves);
+
+  void FindLegalMovesForKnight(Piece& knight, const SquareIdentifier& location,
+                               MoveList& moves);
+
+  void FindLegalMovesForBishop(Piece& bishop, const SquareIdentifier& location,
+                               MoveList& moves);
+
+  void FindLegalMovesForQueen(Piece& queen, const SquareIdentifier& location,
+                              MoveList& moves);
+
+  void FindLegalMovesForKing(Piece& king, const SquareIdentifier& location,
+                             MoveList& moves);
 
   ChessBoard board_;
   uint64_t hash_ = 0;
   bool is_white_to_move_;
+  int8_t white_king_checks_ = 0;
+  int8_t black_king_checks_ = 0;
 };
 }  // namespace chess
 

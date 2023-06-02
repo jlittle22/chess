@@ -3,8 +3,8 @@
 
 namespace chess {
 
-using FileIdentifier = size_t;
-using RankIdentifier = size_t;
+using FileIdentifier = int;
+using RankIdentifier = int;
 
 struct SquareIdentifier {
   RankIdentifier rank;
