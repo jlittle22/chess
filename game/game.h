@@ -50,8 +50,8 @@ class Game {
   ChessBoard board_;
   uint64_t hash_ = 0;
   bool is_white_to_move_;
-  int8_t white_king_checks_ = 0;
-  int8_t black_king_checks_ = 0;
+  std::vector<SquareIdentifier> white_king_checks_;
+  std::vector<SquareIdentifier> black_king_checks_;
 };
 }  // namespace chess
 
